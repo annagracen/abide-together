@@ -1393,8 +1393,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function initSupabase() {
         const settings = getStorage(KEYS.SETTINGS, {});
-        const url = settings.supabaseUrl;
-        const key = settings.supabaseAnonKey;
+
+const url = settings.supabaseUrl ||
+    "https://duemwhflahymoobfasna.supabase.co";
+
+const key = settings.supabaseAnonKey ||
+    sb_publishable_KYc7CsZrzPqzb9ZqAbmMsg_otX-j-1d;
 
         if (url && key && window.supabase) {
             try {
