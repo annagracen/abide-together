@@ -509,15 +509,17 @@ function getAssignedChapters(date) {
         if ($("statJournalEntries")) {
             $("statJournalEntries").textContent = stats.entryCount;
         }
-
+        
         // Today's reading summary
+        const activeBook = "Matthew"; // Temporary until admin book selector is connected
         const readingString = todayChapters.length
-            ? `Matthew ${todayChapters.join("–")}`
+            ? `${activeBook} ${todayChapters.join("–")}`
             : "No Assigned Reading Today";
 
         if ($("statTodayReading")) $("statTodayReading").textContent = readingString;
         if ($("topbarReadingText")) $("topbarReadingText").textContent = readingString;
         if ($("todayReadingSubtext")) $("todayReadingSubtext").textContent = formatDisplayDate(currentDate);
+
 
         // Today's chapter completion progress
         const todayProgress = (getStorage(KEYS.PROGRESS, {}))[todayKey] || [];
@@ -528,7 +530,7 @@ function getAssignedChapters(date) {
             if (todayChapters.length === 0) {
                 const emptyMsg = document.createElement("p");
                 emptyMsg.style.color = "var(--text-muted)";
-                emptyMsg.textContent = "Today is outside the 14-day Matthew reading plan. You can still journal freely!";
+                emptyMsg.textContent = `Today is outside the reading plan for ${activeBook}. You can still journal freely!`;
                 container.appendChild(emptyMsg);
             } else {
                 todayChapters.forEach(ch => {
@@ -549,7 +551,7 @@ function getAssignedChapters(date) {
                     checkbox.style.accentColor = "var(--brand-blue)";
 
                     const text = document.createElement("span");
-                    text.textContent = `Matthew Chapter ${ch}`;
+                    text.textContent = `${activeBook} Chapter ${ch}`;
                     text.style.fontWeight = "600";
 
                     checkbox.addEventListener("change", () => {
