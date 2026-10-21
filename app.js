@@ -266,23 +266,49 @@ document.addEventListener("DOMContentLoaded", function () {
      * Matthew 1–28 Reading Plan (12 Oct – 25 Oct 2026, 2 chapters/day)
      * Outside range returns empty array (no fake assignments)
      */
-    function getAssignedChapters(date) {
-        const a = Date.UTC(PLAN_START_DATE.getFullYear(), PLAN_START_DATE.getMonth(), PLAN_START_DATE.getDate());
-        const b = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
-        const dayDifference = Math.round((b - a) / 86400000);
+    
+function getAssignedChapters(date) {
+    const start = new Date(PLAN_START_DATE);
+    start.setHours(0, 0, 0, 0);
 
-        if (dayDifference < 0 || dayDifference >= TOTAL_PLAN_DAYS) {
-            return [];
-        }
+    const target = new Date(date);
+    target.setHours(0, 0, 0, 0);
 
-        const firstChapter = dayDifference * 2 + 1;
-        const secondChapter = firstChapter + 1;
-
-        const result = [];
-        if (firstChapter <= TOTAL_CHAPTERS) result.push(firstChapter);
-        if (secondChapter <= TOTAL_CHAPTERS) result.push(secondChapter);
-        return result;
+    if (target < start) {
+        return [];
     }
+
+    let readingDay = 0;
+    const cursor = new Date(start);
+
+    while (cursor < target) {
+        if (cursor.getDay() !== 0) {
+            readingDay++;
+        }
+        cursor.setDate(cursor.getDate() + 1);
+    }
+
+    // No assigned reading on Sundays
+    if (target.getDay() === 0) {
+        return [];
+    }
+
+    const firstChapter = readingDay * 2 + 1;
+    const secondChapter = firstChapter + 1;
+
+    const result = [];
+
+    if (firstChapter <= TOTAL_CHAPTERS) {
+        result.push(firstChapter);
+    }
+
+    if (secondChapter <= TOTAL_CHAPTERS) {
+        result.push(secondChapter);
+    }
+
+    return result;
+}
+
 
     // ------------------------------------------------------------------------
     // 6. UI Toast Notifications
@@ -570,6 +596,7 @@ document.addEventListener("DOMContentLoaded", function () {
             NIV: "New International Version (NIV)",
             KJV: "King James Version (KJV)",
             NKJV: "New King James Version (NKJV)"
+            BSI_TELUGU: "Telugu Bible (BSI)"
         };
 
         const activeText = currentItem.translations[selectedVODTranslation] || currentItem.translations.KJV;
