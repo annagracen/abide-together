@@ -1427,7 +1427,7 @@ const url = settings.supabaseUrl ||
     "https://duemwhflahymoobfasna.supabase.co";
 
 const key = settings.supabaseAnonKey ||
-    sb_publishable_KYc7CsZrzPqzb9ZqAbmMsg_otX-j-1d;
+    sb_publishable_ltaNA7nnVozoSCOcZIjg;
 
         if (url && key && window.supabase) {
             try {
