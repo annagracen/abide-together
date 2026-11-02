@@ -597,7 +597,7 @@ function getAssignedChapters(date) {
             NLT: "New Living Translation (NLT)",
             NIV: "New International Version (NIV)",
             KJV: "King James Version (KJV)",
-            NKJV: "New King James Version (NKJV)"
+            NKJV: "New King James Version (NKJV)",
             BSI_TELUGU: "Telugu Bible (BSI)"
         };
 
